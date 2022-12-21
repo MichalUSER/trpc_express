@@ -5,8 +5,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev:server": "ts-node-dev --transpile-only --quiet --exit-child -r @swc-node/register src/server.ts",
-    "dev:client": "ts-node-dev --transpile-only --quiet --exit-child -r @swc-node/register src/client.ts",
+    "dev": "ts-node-dev --transpile-only --quiet --exit-child -r @swc-node/register src/server.ts",
     "build": "swc src -d dist",
     "format": "prettier --write ."
   },
