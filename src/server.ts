@@ -8,19 +8,29 @@ const t = initTRPC.meta<OpenApiMeta>().create();
 const publicProcedure = t.procedure;
 const router = t.router;
 
-const helloRouter = router({
-  hello: publicProcedure
-    .meta({ openapi: { method: "GET", path: "/hello" } })
-    .input(z.object({ name: z.string() }))
-    .output(z.string())
+let msgs: string[] = [];
+
+const messageRouter = router({
+  getMessages: publicProcedure
+    .meta({ openapi: { method: "GET", path: "/getMessages" } })
+    .input(z.object({}))
+    .output(z.string().array())
+    .query(({}) => {
+      return msgs;
+    }),
+  addMessage: publicProcedure
+    .meta({ openapi: { method: "GET", path: "/addMessage" } })
+    .input(z.object({ msg: z.string() }))
+    .output(z.number())
     .query(({ input }) => {
-      return `hello ${input.name ?? "world"}`;
+      msgs.push(input.msg);
+      return 200;
     }),
 });
 
 const appRouter = router({
-  // predifned routers
-  hello: helloRouter,
+  // predifned router
+  message: messageRouter,
 });
 
 export type AppRouter = typeof appRouter;
